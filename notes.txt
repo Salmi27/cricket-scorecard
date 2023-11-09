@@ -1,1 +1,0 @@
-icons: npm i flag-icon-css
