@@ -17,18 +17,55 @@
     />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body class="container" data-bs-theme="dark">
+
+  <body class="container" data-bs-theme="light">
     <div class="d-flex flex-row-reverse mt-1">
       <div class="p-2">
         <div class="btn-group">
-            <a href="#" class="toggle-light btn btn-light btn-sm">Light</a>
-            <a href="#" class="toggle-dark btn btn-dark btn-sm">Dark</a>
+          <a href="#" class="toggle-light btn btn-light btn-sm">Light</a>
+          <a href="#" class="toggle-dark btn btn-dark btn-sm">Dark</a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="live-score d-flex flex-column out-border shadow container border border-secondary-subtle rounded-1 py-3"
+    >
+      <div
+        class=" d-flex justify-content-between out-border container w-100 "
+      >
+        <div class="d-flex justify-content-between col-4">
+          <div class="d-flex flex-column align-items-center p-2 col-7">
+            <div class="fi fi-in fis rounded-1 mb-1 icon-enlarge"></div>
+            <div class="">India</div>
           </div>
-      </div>    
+          <div class="d-flex flex-column align-items-center p-2 col-5">
+            <div class="c">326/5</div>
+            <div class="c">(50)</div>
+          </div>
+        </div>
+        <div class="p-2">Vs</div>
+        <div class="d-flex justify-content-between col-4">
+          <div class="d-flex flex-column align-items-center p-2 col-5">
+            <div class="c">83</div>
+            <div class="c">(27.1)</div>
+          </div>
+          <div class="d-flex flex-column align-items-center p-2 col-7">
+            <div class="fi fi-za fis rounded-1 mb-1 icon-enlarge"></div>
+            <div class="">South Africa</div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="out-border container d-flex flex-column justify-content-center align-items-center"
+      >
+        <div class="items">India won by 263 runs</div>
+        <div class="text-secondary">ODI 41 of 48</div>
+      </div>
     </div>
 
     <div
-      class="out-border container mt-3 border border-secondary-subtle rounded-1 p-3"
+      class="out-border shadow container mt-3 mb-3 border border-secondary-subtle rounded-1 p-3"
     >
       <table class="table table-hover">
         <thead>
@@ -52,5 +89,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="index.js"></script>
+    <!-- <script src="testing.js"></script> -->
   </body>
 </html>

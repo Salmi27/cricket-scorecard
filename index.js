@@ -1,9 +1,12 @@
 const table = document.querySelector("table");
+const liveScore = document.querySelector(".live-score");
 
-const url = window.env.URL;
+const url_points_table = window.env.URL;
+const url_live_score =
+  "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent";
 
 // To render the country flag
-let countryCode = [ 
+let countryCode = [
   { name: "IND", code: "in" },
   { name: "RSA", code: "za" },
   { name: "AUS", code: "au" },
@@ -23,7 +26,7 @@ formIndicator = [
 ];
 
 //Function for fetching API
-function getScoreCard(url) {
+function getPointsTable(url) {
   const options = {
     method: "GET",
     headers: {
@@ -93,162 +96,96 @@ function getScoreCard(url) {
   }
 }
 
-getScoreCard(url);
+function getLiveScore(url) {
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": window.env.API_KEY,
+      "X-RapidAPI-Host": window.env.HOST,
+    },
+  };
 
-function testing() {
-  let data = [
-    {
-      name: "IND",
-      notation: "in",
-      match: 8,
-      win: 8,
-      loss: 8 - 8,
-      pts: 8 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "SA",
-      notation: "za",
-      match: 8,
-      win: 6,
-      loss: 8 - 6,
-      pts: 6 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "AUS",
-      notation: "au",
-      match: 8,
-      win: 6,
-      loss: 8 - 6,
-      pts: 6 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "NZ",
-      notation: "nz",
-      match: 8,
-      win: 5,
-      loss: 8 - 5,
-      pts: 5 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "IND",
-      notation: "in",
-      match: 8,
-      win: 8,
-      loss: 8 - 8,
-      pts: 8 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "SA",
-      notation: "za",
-      match: 8,
-      win: 6,
-      loss: 8 - 6,
-      pts: 6 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "AUS",
-      notation: "au",
-      match: 8,
-      win: 6,
-      loss: 8 - 6,
-      pts: 6 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "NZ",
-      notation: "nz",
-      match: 8,
-      win: 5,
-      loss: 8 - 5,
-      pts: 5 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "IND",
-      notation: "in",
-      match: 8,
-      win: 8,
-      loss: 8 - 8,
-      pts: 8 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "SA",
-      notation: "za",
-      match: 8,
-      win: 6,
-      loss: 8 - 6,
-      pts: 6 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "AUS",
-      notation: "au",
-      match: 8,
-      win: 6,
-      loss: 8 - 6,
-      pts: 6 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-    {
-      name: "NZ",
-      notation: "nz",
-      match: 8,
-      win: 5,
-      loss: 8 - 5,
-      pts: 5 * 2,
-      form: ["W", "W", "L", "W", "L"],
-    },
-  ];
+  try {
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(
+          data.typeMatches[0].seriesMatches[0].seriesAdWrapper.matches[0]
+        );
 
-  data.forEach((country, index) => {
-    formArray = [];
-    country.form.forEach((item) => {
-      item == "W"
-        ? formArray.push(formIndicator[0])
-        : formArray.push(formIndicator[1]);
-    });
-    table.innerHTML += `
-                  <tbody>
-                      <tr>
-                          <td>
-                              <div id="zero" class=".container col-6">
-                                  <div class="d-inline-block mr-1" >${
-                                    index + 1
-                                  }</div>
-                                  <span class="fi fi-${
-                                    country.notation
-                                  } fis rounded-1"></span> 
-                                  <div class="d-inline-block ml-1">${
-                                    country.name
-                                  }</div>
-                              </div>
-                          </td>
-                          <td>${country.match}</td>
-                          <td>${country.win}</td>
-                          <td>${country.loss}</td>
-                          <td>3.152</td>
-                          <td>${country.pts}</td>
-                          <td>
-                            <img src=${formArray[0]}>
-                            <img src=${formArray[1]}>
-                            <img src=${formArray[2]}>
-                            <img src=${formArray[3]}>
-                            <img src=${formArray[4]}>
-                          </td>
-                      </tr>
-                  </tbody>
-              `;
-  });
+        const root =
+          data.typeMatches[0].seriesMatches[0].seriesAdWrapper.matches[0];
+
+        // Assigning code to render the country flag
+        let code = ["", ""];
+        countryCode.forEach((item) => {
+          if (root.matchInfo.team1.teamSName == item.name) {
+            code[0] = item.code;
+          } else if (root.matchInfo.team2.teamSName == item.name) {
+            code[1] = item.code;
+          }
+        });
+
+        let teamNames = [
+          root.matchInfo.team1.teamName,
+          root.matchInfo.team2.teamName,
+        ];
+
+        let runs = [
+          root.matchScore.team1Score.inngs1.runs || 0,
+          root.matchScore.team2Score.inngs1.runs || 0,
+        ];
+        let wickets = [
+          root.matchScore.team1Score.inngs1.wickets || 0,
+          root.matchScore.team2Score.inngs1.wickets || 0,
+        ];
+        let overs = [
+          root.matchScore.team1Score.inngs1.overs || 0,
+          root.matchScore.team2Score.inngs1.overs || 0,
+        ];
+
+        liveScore.innerHTML = `
+              <div
+                class=" d-flex justify-content-between out-border container w-100 "
+              >
+                <div class="d-flex justify-content-between col-4">
+                  <div class="d-flex flex-column align-items-center p-2 col-7">
+                    <div class="fi fi-${code[0]} fis rounded-1 mb-1 icon-enlarge"></div>
+                    <div class="">${teamNames[0]}</div>
+                  </div>
+                  <div class="d-flex flex-column align-items-center p-2 col-5">
+                    <div class="c">${runs[0]}/${wickets[0]}</div>
+                    <div class="c">(${overs[0]})</div>
+                  </div>
+                </div>
+                <div class="p-2">Vs</div>
+                <div class="d-flex justify-content-between col-4">
+                  <div class="d-flex flex-column align-items-center p-2 col-5">
+                    <div class="c">${runs[1]}/${wickets[1]}</div>
+                    <div class="c">(${overs[1]})</div>
+                  </div>
+                  <div class="d-flex flex-column align-items-center p-2 col-7">
+                    <div class="fi fi-${code[1]} fis rounded-1 mb-1 icon-enlarge"></div>
+                    <div class="">${teamNames[1]}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="out-border container d-flex flex-column justify-content-center align-items-center"
+              >
+                <div class="items">India won by 263 runs</div>
+                <div class="text-secondary">ODI 41 of 48</div>
+              </div>
+            `;
+      });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-//testing();
+// getPointsTable(url_points_table);
+//getLiveScore(url_live_score);
 
 document.querySelector(".toggle-light").addEventListener("click", (e) => {
   document.body.setAttribute("data-bs-theme", "light");
