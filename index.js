@@ -227,15 +227,15 @@ function getLiveScore(url) {
 
         let runs = [
           root.matchScore.team1Score.inngs1.runs || 0,
-          root.matchScore.team2Score || 0,
+          root.matchScore.team2Score.inngs1.runs || 0,
         ];
         let wickets = [
           root.matchScore.team1Score.inngs1.wickets || 0,
-          root.matchScore.team2Score || 0,
+          root.matchScore.team2Score.inngs1.wickets || 0,
         ];
         let overs = [
           root.matchScore.team1Score.inngs1.overs || 0,
-          root.matchScore.team2Score || 0,
+          root.matchScore.team2Score.inngs1.overs || 0,
         ];
 
         liveScore.innerHTML = `
@@ -273,9 +273,9 @@ function getLiveScore(url) {
                 class="out-border container d-flex flex-column justify-content-center align-items-center"
               >
                 <div class="items">${root.matchInfo.status}</div>
-                <div class="text-secondary">ODI ${parseInt(
+                <div class="text-secondary">Semi Final ${parseInt(
                   root.matchInfo.matchDesc
-                )} of 48</div>
+                )}</div>
               </div>
             `;
       });
@@ -284,9 +284,9 @@ function getLiveScore(url) {
   }
 }
 
-// getPointsTable(url_points_table);
+getPointsTable(url_points_table);
 //getRecentScore(url_recent_score);
-//getLiveScore(url_live_score);
+getLiveScore(url_live_score);
 
 document.querySelector(".toggle-light").addEventListener("click", (e) => {
   document.body.setAttribute("data-bs-theme", "light");
